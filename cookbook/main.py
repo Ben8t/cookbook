@@ -6,7 +6,7 @@ if __name__ == "__main__":
     BASE_URL = "https://cuisine.journaldesfemmes.fr/toutes-les-recettes/"
     scraper = Scraper(BASE_URL)
     categories = scraper.get_recipes_categories(BASE_URL)
-    for cat in [i for i in categories][0:2]:
+    for cat in categories:
         receipes = scraper.get_recipes_categories(cat.get("url"))
         cat_foldername = cat.get('caption').lower().replace(" ", "-")
         write_folder(cat_foldername)
