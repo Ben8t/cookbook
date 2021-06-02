@@ -13,4 +13,4 @@ if __name__ == "__main__":
         print(cat_foldername)
         for receipe in receipes:
             receipe_filename = receipe.get('caption').lower().replace(" ", "-").replace("/", "")
-            write_file(receipe_filename, f"# {receipe.get('caption')}", path=f"docs/{cat_foldername}")
+            write_file(receipe_filename, f"# {receipe.get('caption')}\n![{receipe.get('url')}]({receipe.get('img')}", path=f"docs/{cat_foldername}")
