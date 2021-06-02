@@ -13,4 +13,9 @@ if __name__ == "__main__":
         print(cat_foldername)
         for receipe in receipes:
             receipe_filename = receipe.get('caption').lower().replace(" ", "-").replace("/", "")
-            write_file(receipe_filename, f"# {receipe.get('caption')}\n![{receipe.get('url')}]({receipe.get('img')}", path=f"docs/{cat_foldername}")
+            markdown_content = ""
+            markdown_content = markdown_content + f"# {receipe.get('caption')}"
+            receipe_content = scraper.parse_receipe(receipe)
+            markdown_content = markdown_content + f"\n{receipe_content.get('name')}"
+            markdown_content = markdown_content + f"\n![]({receipe_content.get('img')})"
+            write_file(receipe_filename, markdown_content, path=f"docs/{cat_foldername}")

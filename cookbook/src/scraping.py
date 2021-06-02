@@ -21,5 +21,12 @@ class Scraper:
             if href.startswith("https://"):
                 yield {"img": img, "caption": caption, "url": href}
     
-
-#/html/body/div[3]/div/div[1]/div[2]/div[1]/div/div/section[1]/div/ul/li[1]/figure/a
+    def parse_receipe(receipe: dict) -> dict:
+        url = receipe.get("url")
+        tree = self.get_tree(url)
+        img = tree.xpath('//*[@id="jStickySize"]/div[2]/div[1]/figure/a/img/@src')
+        return {
+            "url": url,
+            "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()'),
+            "img": img
+        }
