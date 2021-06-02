@@ -21,7 +21,7 @@ class Scraper:
             if href.startswith("https://"):
                 yield {"img": img, "caption": caption, "url": href}
     
-    def parse_receipe(receipe: dict) -> dict:
+    def parse_receipe(self, receipe: dict) -> dict:
         url = receipe.get("url")
         tree = self.get_tree(url)
         img = tree.xpath('//*[@id="jStickySize"]/div[2]/div[1]/figure/a/img/@src')
