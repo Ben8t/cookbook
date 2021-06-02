@@ -1,6 +1,6 @@
 from cookbook.src.scraping import Scraper
 from cookbook.src.io import write_file, write_folder
-
+from time import sleep
 
 if __name__ == "__main__":
     BASE_URL = "https://cuisine.journaldesfemmes.fr/toutes-les-recettes/"
@@ -19,3 +19,4 @@ if __name__ == "__main__":
             markdown_content = markdown_content + f"\n{receipe_content.get('name')}"
             markdown_content = markdown_content + f"\n![]({receipe_content.get('img')})"
             write_file(receipe_filename, markdown_content, path=f"docs/{cat_foldername}")
+            sleep(2)
