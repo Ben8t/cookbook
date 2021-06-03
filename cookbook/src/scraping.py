@@ -23,13 +23,24 @@ class Scraper:
     
     def parse_receipe(self, receipe: dict) -> dict:
         url = receipe.get("url")
-        if url.startswith("https://cuisine.journaldesfemmes.fr/recette/"):
-            tree = self.get_tree(url)
-            img = tree.xpath('//img[@class="bu_cuisine_img_noborder photo"]/@src')[0]
-            return {
-                "url": url,
-                "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()'),
-                "img": img
-            }
-        else:
-            print(f"Probably not a good receipe url, {url}")
+        tree = self.get_tree(url)
+        img = tree.xpath('//img[@class="bu_cuisine_img_noborder photo"]/@src')[0]
+        recipe_resume_tree = tree.xpath('//div[@class="app_recipe_resume"]')
+        recipe_resume = [i for i in self.parse_recipe_resume(recipe_resume_tree)]
+
+        return {
+            "url": url,
+            "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()')[0],
+            "img": img,
+            "recipe_resume": recipe_resume
+        }
+
+    def parse_recipe_resume(self, recipe_resume_tree):
+        for resume in recipe_resume_tree[0].xpath('.//div'):
+            flat = "".join(resume.xpath('.//span/text()')).replace("\n", "").strip()
+            strong = resume.xpath('.//span/strong/text()')
+            if flat and strong:
+                yield {
+                    "flat": flat,
+                    "strong": strong[0]
+                }
