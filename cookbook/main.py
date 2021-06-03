@@ -8,7 +8,6 @@ def build_receipe(scraper, receipe, cat_foldername):
     markdown_content = ""
     markdown_content = markdown_content + f"# {receipe.get('caption')}"
     receipe_content = scraper.parse_receipe(receipe)
-    markdown_content = markdown_content + f"\n{receipe_content.get('name')}"
     markdown_content = markdown_content + f"\n![]({receipe_content.get('img')})"
     write_file(receipe_filename, markdown_content, path=f"docs/{cat_foldername}")
 
