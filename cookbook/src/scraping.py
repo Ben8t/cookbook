@@ -23,10 +23,13 @@ class Scraper:
     
     def parse_receipe(self, receipe: dict) -> dict:
         url = receipe.get("url")
-        tree = self.get_tree(url)
-        img = tree.xpath('//*[@id="jStickySize"]/div[2]/div[1]/figure/a/img/@src')[0]
-        return {
-            "url": url,
-            "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()'),
-            "img": img
-        }
+        if url.startswith("https://cuisine.journaldesfemmes.fr/recette/"):
+            tree = self.get_tree(url)
+            img = tree.xpath('//img[@class="bu_cuisine_img_noborder photo"]/@src')[0]
+            return {
+                "url": url,
+                "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()'),
+                "img": img
+            }
+        else:
+            print(f"Probably not a good receipe url, {url}")
