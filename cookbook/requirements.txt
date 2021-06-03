@@ -1,3 +1,4 @@
 requests
 lxml
 mkdocs-material
+Jinja2
