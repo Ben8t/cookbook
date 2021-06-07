@@ -25,7 +25,7 @@ if __name__ == "__main__":
     scraper = Scraper(BASE_URL)
     categories = scraper.get_recipes_categories(BASE_URL)
     if LOCAL:
-        categories = [i for i in categories][0:2]
+        categories = [i for i in categories][0:5]
     for cat in categories:
         receipes = scraper.get_recipes_categories(cat.get("url"))
         cat_foldername = cat.get('caption').lower().replace(" ", "-")

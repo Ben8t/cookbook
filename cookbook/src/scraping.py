@@ -27,12 +27,18 @@ class Scraper:
         img = tree.xpath('//img[@class="bu_cuisine_img_noborder photo"]/@src')[0]
         recipe_resume_tree = tree.xpath('//div[@class="app_recipe_resume"]')
         recipe_resume = [i for i in self.parse_recipe_resume(recipe_resume_tree)]
+        recipe_ingredients_tree = tree.xpath('//ul[@class="app_recipe_list app_recipe_list--2"]')
+        recipe_ingredients = [i for i in self.parse_ingredients(recipe_ingredients_tree)]
+        recipe_preparation_tree = tree.xpath('//li[@class="bu_cuisine_recette_prepa "]')
+        recipe_preparations = [i for i in self.parse_preparation(recipe_preparation_tree)]
 
         return {
             "url": url,
             "name": tree.xpath('//*[@id="jStickySize"]/header/h1/text()')[0],
             "img": img,
-            "recipe_resume": recipe_resume
+            "recipe_resume": recipe_resume,
+            "recipe_ingredients": recipe_ingredients,
+            "recipe_preparations": recipe_preparations
         }
 
     def parse_recipe_resume(self, recipe_resume_tree):
@@ -44,3 +50,25 @@ class Scraper:
                     "flat": flat,
                     "strong": strong[0]
                 }
+
+    def parse_ingredients(self, recipe_ingredients_tree):
+        for ingredient in recipe_ingredients_tree[0].xpath('.//div'):
+            name = "".join(ingredient.xpath('.//div/h3/a/text()')).replace("\n", "").strip()
+            img = ingredient.xpath('.//div/img/@src')
+            quantity = "".join(ingredient.xpath('.//div/h3/span/text()')).replace("\n", "").strip()
+            if name and img:
+                yield {
+                    "name": name,
+                    "img": img[0],
+                    "quantity": quantity
+                }
+            
+
+    def parse_preparation(self, recipe_preparation_tree):
+        for preparation in recipe_preparation_tree:
+            etape = "".join(preparation.xpath('.//span[@class="bu_cuisine_recette_prepa_etape"]/text()')).replace("\n", "").strip()
+            text = "".join(preparation.xpath('.//text()')).replace("\n", "").strip()[3:]
+            yield {
+                "etape": etape if etape else "Pour finir",
+                "text": text if etape else text[8:]
+            }
