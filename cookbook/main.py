@@ -16,12 +16,12 @@ def build_receipe(scraper, receipe, cat_foldername):
     if receipe_content:
         template  = read_template("cookbook/template/receipe_template.md")
         data = template.render(receipe_content)
-        print(data)
         write_file(receipe_filename, data, path=f"docs/{cat_foldername}")
+
 
 if __name__ == "__main__":
     BASE_URL = "https://cuisine.journaldesfemmes.fr/toutes-les-recettes/"
-    LOCAL = True
+    LOCAL = False
     scraper = Scraper(BASE_URL)
     categories = scraper.get_recipes_categories(BASE_URL)
     if LOCAL:
