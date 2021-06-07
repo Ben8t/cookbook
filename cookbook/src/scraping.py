@@ -90,7 +90,7 @@ class Scraper:
         if quantity == "1/4":
             quantity = 0.25
 
-        if quantity_title in ["g", "cl", "ml", "gousse", "c à s", "NONE", "pot", "pincée", "sachet", "tranche", "branche", "jus"]:
+        if quantity_title in ["g", "cl", "ml", "gousse", "c à s", "NONE", "pot", "pincée", "sachet", "tranche", "branche", "jus", "filet"]:
                 return float(quantity)*2/base_person_quantity, float(quantity)*4/base_person_quantity, float(quantity)*6/base_person_quantity
         
         return quantity, quantity, quantity
