@@ -1,4 +1,5 @@
 site_name: Cookbook
+isite_url: ""
 use_directory_urls: false
 theme:
   name: material
