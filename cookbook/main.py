@@ -21,7 +21,7 @@ def build_receipe(scraper, receipe, cat_foldername):
 
 if __name__ == "__main__":
     BASE_URL = "https://cuisine.journaldesfemmes.fr/toutes-les-recettes/"
-    LOCAL = True
+    LOCAL = False
     scraper = Scraper(BASE_URL)
     categories = scraper.get_recipes_categories(BASE_URL)
     if LOCAL:
