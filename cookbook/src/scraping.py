@@ -55,6 +55,10 @@ class Scraper:
         for ingredient in recipe_ingredients_tree[0].xpath('.//div'):
             name = "".join(ingredient.xpath('.//div/h3/a/text()')).replace("\n", "").strip()
             img = ingredient.xpath('.//div/img/@src')
+            if img:
+                img = img[0]
+            else:
+                img = ""
             quantity = "".join(ingredient.xpath('.//div/h3/span/@data-quantity')).replace("\n", "").strip()
             quantity_title = "".join(ingredient.xpath('.//div/h3/span/@data-mesure-singular')).replace("\n", "").strip()
             if "".join(ingredient.xpath('.//div/h3/span/text()')).replace("\n", "").strip() in [f"{i}" for i in range(0,20)]:
@@ -64,20 +68,20 @@ class Scraper:
                 base_person_quantity = float(tree.xpath('//span[@id="numberPerson"]/text()')[0])
                 if base_person_quantity:
                     quantity2, quantity4, quantity6 = self.get_quantity_coef(quantity, base_person_quantity, quantity_title)
-                    if name and img:
+                    if name:
                         yield {
                             "name": name,
-                            "img": img[0],
+                            "img": img,
                             "quantity2": quantity2,
                             "quantity4": quantity4,
                             "quantity6": quantity6,
                             "quantity_title": quantity_title if quantity_title != "NONE" else ""
                         }
             except:
-                if name and img:
+                if name:
                     yield {
                         "name": name,
-                        "img": img[0],
+                        "img": img,
                         "quantity2": "".join(ingredient.xpath('.//div/h3/span/text()')).replace("\n", "").strip(),
                         "quantity4": "".join(ingredient.xpath('.//div/h3/span/text()')).replace("\n", "").strip(),
                         "quantity6": "".join(ingredient.xpath('.//div/h3/span/text()')).replace("\n", "").strip(),
